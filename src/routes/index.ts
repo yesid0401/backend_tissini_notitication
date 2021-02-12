@@ -1,12 +1,12 @@
 import  {Router,Request,Response} from 'express'
-import {indexCtrl} from '../controllers/IndexController'
+import {notificationCtrl} from '../controllers/NotificationController'
 const router : Router = Router();
 
 router.get('/',(req:Request,res:Response) => {
     res.send('hello word')
 })
 
-router.post('/notifications',indexCtrl.SendNotification)
+router.post('/notifications',notificationCtrl.SendNotification)
 
 
 export default router;

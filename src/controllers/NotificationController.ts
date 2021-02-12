@@ -1,11 +1,11 @@
 import {Request,Response} from 'express'
 import PushNotifications from '@pusher/push-notifications-server'
 
-class IndexController {
+class NotificationController {
    
 
     public SendNotification(req:Request, res:Response){
-        const {fcm} = req.body
+        const {title,body,link} = req.body
 
         let beamsClient = new PushNotifications({
             instanceId : 'd6c86a48-12cf-486a-bcef-7699a38936a9'  ,
@@ -13,7 +13,16 @@ class IndexController {
           });
 
           beamsClient.publishToInterests(['hello'], {
-            fcm
+            fcm:{
+              notification:{
+                title:title,
+                body:body,
+                color: "#FF4EF2"
+              },
+              data:{
+                link:link
+              }
+            }
           })
           .then((publishResponse) => {
             console.log('send notification:', publishResponse.publishId);
@@ -26,5 +35,5 @@ class IndexController {
     }
 }
 
-export const indexCtrl = new IndexController()
+export const notificationCtrl = new NotificationController()
 

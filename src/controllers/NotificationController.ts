@@ -3,16 +3,15 @@ import PushNotifications from '@pusher/push-notifications-server'
 
 class NotificationController {
    
-
     public SendNotification(req:Request, res:Response){
-        const {title,body,link} = req.body
-
+        const {title,body,link,interests} = req.body
+  
         let beamsClient = new PushNotifications({
-            instanceId : 'd6c86a48-12cf-486a-bcef-7699a38936a9'  ,
-            secretKey : 'B5EC4650A1CDE79B518C47EA75B4D5DE5EEE9FD56BE6B936DC52FF1FDC8CD4FF'
+            instanceId :  process.env.PUSHER_APP_ID  || '',
+            secretKey  : process.env.PUSHER_APP_SECRET || ''
           });
 
-          beamsClient.publishToInterests(['hello'], {
+          beamsClient.publishToInterests(interests, {
             fcm:{
               notification:{
                 title:title,
@@ -31,7 +30,10 @@ class NotificationController {
             console.error('Error:', error);
           });
 
-          return res.json('send notification');
+          return res.json({
+              code : res.statusCode,
+              message: 'send notification'
+          });
     }
 }
 
